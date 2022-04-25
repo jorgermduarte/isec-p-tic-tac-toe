@@ -136,26 +136,29 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
         printf("-- Updating board %d with index %d, row: %d col: %d\n",*boardIndex,playIndex,row,column);
         b->board[row][column] = gameBoard->currentlyPlaying->symbol;
         displayGameBoard(gameBoard);
+
+        //verify by line
+        bool winLine = VerifyPlayerWinByLine(b);
+
+        //verify by column
+        bool winColumn = VerifyPlayerWinByColumn(b);
+
+        //verify by diag
+        bool winDiag = VerifyPlayerWinByDiag(b);
+
+        //verify by diag inverted
+        bool winDiagInverted = VerifyPlayerWinByDiagInverted(b);
+
+        if(winLine || winColumn || winDiag || winDiagInverted){
+            setPlayerBoardVictory(gameBoard,b,boardIndex);
+        }
+
+        //Verify if on the outside boards game someone won
+        verifyBoardVictory(gameBoard);
+
     }
 
-    //verify by line
-    bool winLine = VerifyPlayerWinByLine(b);
 
-    //verify by column
-    bool winColumn = VerifyPlayerWinByColumn(b);
-
-    //verify by diag
-    bool winDiag = VerifyPlayerWinByDiag(b);
-
-    //verify by diag inverted
-    bool winDiagInverted = VerifyPlayerWinByDiagInverted(b);
-
-    if(winLine || winColumn || winDiag || winDiagInverted){
-        setPlayerBoardVictory(gameBoard,b,boardIndex);
-    }
-
-    //Verify if on the outside boards game someone won
-    verifyBoardVictory(gameBoard);
 
     //returns the index that the player played in that board to affect the next move
     return playIndex;
