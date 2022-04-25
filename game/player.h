@@ -9,9 +9,9 @@
 #include "game.h"
 
 enum PlayerSymbolCode{
-    PLAYER_SYMBOL_NULL,
-    PLAYER_SYMBOL_BALL,
-    PLAYER_SYMBOL_X,
+    PLAYER_SYMBOL_NULL = 0,
+    PLAYER_SYMBOL_BALL = 1,
+    PLAYER_SYMBOL_X = 2,
 };
 
 typedef struct Player{
@@ -33,5 +33,11 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex);
 void playerInitialization(struct Player *player,char *playerName, enum PlayerSymbolCode psc);
 
 void displayPlayer(struct Player *player);
+
+bool VerifyPlayerWinByLine(struct Board *b);
+bool VerifyPlayerWinByColumn(struct Board *b);
+bool VerifyPlayerWinByDiagInverted(struct Board *b);
+bool VerifyPlayerWinByDiag(struct Board *b);
+
 
 #endif //TIC_TAC_TOE_PLAYER_H

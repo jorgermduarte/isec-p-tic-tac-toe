@@ -3,6 +3,7 @@
 //
 
 #include "game.h"
+#include "utils.h"
 
 void displaySingleBoard(struct Board target){
     int column,line;
@@ -99,6 +100,7 @@ void cleanGameBoard(struct Game *game){
         }
     }
     game->currentlyPlaying = NULL;
+    game->gameFinished = false;
 }
 
 int startGame(){
@@ -115,13 +117,18 @@ int startGame(){
     return userOption;
 }
 
-bool checkIfGameBoardExistsOrIsFinished(struct Game *game, int boardIndex){
+bool checkIfGameBoardIsValid(struct Game *game, int boardIndex){
     if(boardIndex > (TOTAL_BOARDS)-1 || boardIndex < 0)
-        return false;
-    if(game->boards[boardIndex].finished)
         return false;
     else
         return true;
+}
+
+bool checkIfGameBoardIsFinished(struct Game *game, int boardIndex){
+    if(game->boards[boardIndex].finished)
+        return true;
+    else
+        return false;
 }
 
 /**
@@ -129,9 +136,50 @@ bool checkIfGameBoardExistsOrIsFinished(struct Game *game, int boardIndex){
  * @param game
  * @return
  */
-bool verifyBoardVictory(struct Game * game){
-    //set the gameEnded as true;
-    //apply the victory to the respective player;
-    //apply the defeat to the respective player;
-    return false;
+void verifyBoardVictory(struct Game * game){
+    printf("========== CURRENT GAME STATUS ==========\n\n");
+    int i =0;
+    struct Board b;
+    for(i = 0; i < TOTAL_BOARDS; i++ ){
+        int row = i / BOARD_MATRIX_ORDER;
+        int column = i % BOARD_MATRIX_ORDER;
+
+        if(game->boards[i].winner != NULL){
+            struct Player boardWinner = *(game->boards[i].winner);
+            b.board[row][column] = game->boards[i].winner->symbol;
+            printf("simbulo vencedor: %d , ",boardWinner.symbol);
+            printf("address : %p",&game->boards[i].winner);
+            printf("-> vencedor: do board %d : ",i);
+            displayString(game->boards[i].winner->name);
+            printf("\n");
+        }else{
+
+            b.board[row][column] = PLAYER_SYMBOL_NULL;
+        }
+    }
+    b.winner = NULL;
+    b.finished = false;
+    displaySingleBoard(b);
+
+    //verify by line
+    bool winLine = VerifyPlayerWinByLine(&b);
+
+    //verify by column
+    bool winColumn = VerifyPlayerWinByColumn(&b);
+
+    //verify by diag
+    bool winDiag = VerifyPlayerWinByDiag(&b);
+
+    //verify by diag inverted
+    bool winDiagInverted = VerifyPlayerWinByDiagInverted(&b);
+
+    if(winLine || winColumn || winDiag || winDiagInverted){
+        game->gameFinished = true;
+        game->currentlyPlaying->victories++;
+
+        printf("Congratulations! The player ");
+        displayString(game->currentlyPlaying);
+        printf(" won the game!\n");
+    }
+    printf("============== ########### ==============\n");
 }

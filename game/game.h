@@ -12,6 +12,11 @@
 #define BOARD_MATRIX_ORDER 3
 #define TOTAL_BOARDS 9
 
+enum GameMode{
+    GAMEMODE_HumanVsHuman = 0,
+    GAMEMODE_HumanVsComputer = 1
+};
+
 typedef struct Board{
     int board[BOARD_MATRIX_ORDER][BOARD_MATRIX_ORDER];
     bool finished;
@@ -23,6 +28,8 @@ typedef struct Game{
     struct Board boards[TOTAL_BOARDS];
     struct Player *currentlyPlaying;
     struct Player *players[2];
+    enum GameMode gameMode;
+    bool gameFinished;
 };
 
 /*
@@ -47,9 +54,11 @@ void displayGameBoard(struct Game *game);
 
 void cleanGameBoard(struct Game *game);
 
-bool checkIfGameBoardExistsOrIsFinished(struct Game *game, int boardIndex);
+bool checkIfGameBoardIsFinished(struct Game *game, int boardIndex);
 
-bool verifyBoardVictory(struct Game * game);
+bool checkIfGameBoardIsValid(struct Game *game, int boardIndex);
+
+void verifyBoardVictory(struct Game * game);
 
 int startGame();
 

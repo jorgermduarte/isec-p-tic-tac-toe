@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "utils.h"
+#include "game.h"
 
 int lengthString(char* target){
     int count = 0;
@@ -20,7 +21,6 @@ void displayString(char* target){
         printf("%c",*target);
         target++;
     }
-    printf("\n");
 }
 
 void updateString(char* target,char* value){
