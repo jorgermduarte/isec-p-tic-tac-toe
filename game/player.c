@@ -6,6 +6,7 @@
 #include "player.h"
 #include "utils.h"
 #include <math.h>
+#include <stdlib.h>
 
 bool VerifyPlayerWinByLine(struct Board *b){
     int i = 0,x = 0;
@@ -57,10 +58,6 @@ bool VerifyPlayerWinByDiagInverted(struct Board *b){
     if(defaultValue == PLAYER_SYMBOL_NULL){
         playerWon = false;
     }else{
-        if(defaultValue == PLAYER_SYMBOL_NULL){
-        playerWon = false;
-        }
-
         //now verify the inverted diagonal
         for(lin = 0; lin < BOARD_MATRIX_ORDER; lin++){
             if(b->board[lin][col] != defaultValue){
@@ -103,15 +100,42 @@ void setPlayerBoardVictory(struct Game *gameBoard,struct Board *b,int *boardInde
     printf("==================================\n");
 }
 
+int BotAction_selectMatrixIndex(struct Game *gameBoard, int boardIndex){
+
+    int playIndex = rand() % (BOARD_MATRIX_ORDER*BOARD_MATRIX_ORDER);
+    int row = 0;
+    int column = 0;
+
+    if(playIndex > 0){
+        row = playIndex / BOARD_MATRIX_ORDER;
+        column = playIndex % BOARD_MATRIX_ORDER;
+    }
+    struct Board board = gameBoard->boards[boardIndex];
+
+    if(board.board[row][column] == PLAYER_SYMBOL_NULL){
+        printf(" > Bot selected index number: %d \n", playIndex);
+        return playIndex;
+    }
+    else
+        return BotAction_selectMatrixIndex(gameBoard,boardIndex);
+}
+
 int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
 
     printf("> Player Playing: ");
     displayString(gameBoard->currentlyPlaying->name);
     printf(" | Playing on board: %d\n",*boardIndex);
     printf("In witch index do you want to play?\n");
-    printf("Your board game index: ");
     int playIndex = -1;
-    scanf("%d",&playIndex);
+
+    //check if is the player or a bot playing
+    if(gameBoard->currentlyPlaying->isBot){
+        playIndex = BotAction_selectMatrixIndex(gameBoard,*boardIndex);
+    }else{
+        printf("Your board game index: ");
+        scanf("%d",&playIndex);
+    }
+
 
     //verify if the play index the user is trying to play really exists;
     int limitIndex = pow(BOARD_MATRIX_ORDER,2) -1;
@@ -164,7 +188,7 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
     return playIndex;
 }
 
-void playerInitialization(struct Player *player,char *playerName, enum PlayerSymbolCode psc){
+void playerInitialization(struct Player *player,char *playerName, enum PlayerSymbolCode psc,bool isBot){
     int i = 0;
 
     while (*playerName != '\0'){
@@ -176,6 +200,7 @@ void playerInitialization(struct Player *player,char *playerName, enum PlayerSym
     player->defeats = 0;
     player->victories = 0;
     player->symbol = psc;
+    player->isBot = isBot;
 }
 
 void displayPlayer(struct Player *player){

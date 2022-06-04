@@ -2,7 +2,7 @@
 // Created by Jorge on 4/21/2022.
 //
 
-#include "game.h"
+#include "gameBoard.h"
 #include "utils.h"
 
 void displaySingleBoard(struct Board target){
@@ -147,11 +147,11 @@ void verifyBoardVictory(struct Game * game){
         if(game->boards[i].winner != NULL){
             struct Player boardWinner = *(game->boards[i].winner);
             b.board[row][column] = game->boards[i].winner->symbol;
-            printf("simbulo vencedor: %d , ",boardWinner.symbol);
-            printf("address : %p",&game->boards[i].winner);
-            printf("-> vencedor: do board %d : ",i);
-            displayString(game->boards[i].winner->name);
-            printf("\n");
+            //printf("simbulo vencedor: %d , ",boardWinner.symbol);
+            //printf("address : %p",&game->boards[i].winner);
+            //printf("-> vencedor: do board %d : ",i);
+            //displayString(game->boards[i].winner->name);
+            //printf("\n");
         }else{
 
             b.board[row][column] = PLAYER_SYMBOL_NULL;

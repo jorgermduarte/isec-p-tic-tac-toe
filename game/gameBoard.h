@@ -2,8 +2,8 @@
 // Created by Jorge on 4/21/2022.
 //
 
-#ifndef TIC_TAC_TOE_GAME_H
-#define TIC_TAC_TOE_GAME_H
+#ifndef TIC_TAC_TOE_GAMEBOARD_H
+#define TIC_TAC_TOE_GAMEBOARD_H
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -62,4 +62,4 @@ void verifyBoardVictory(struct Game * game);
 
 int startGame();
 
-#endif //TIC_TAC_TOE_GAME_H
+#endif //TIC_TAC_TOE_GAMEBOARD_H

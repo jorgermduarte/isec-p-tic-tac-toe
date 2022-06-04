@@ -6,7 +6,7 @@
 #define TIC_TAC_TOE_PLAYER_H
 
 #include <stdbool.h>
-#include "game.h"
+#include "gameBoard.h"
 
 enum PlayerSymbolCode{
     PLAYER_SYMBOL_NULL = 0,
@@ -19,6 +19,7 @@ typedef struct Player{
     int victories;
     int defeats;
     enum PlayerSymbolCode symbol; // if the player is the O,X ou another symbol
+    bool isBot;
 };
 
 /*
@@ -30,7 +31,7 @@ typedef struct Player{
  */
 int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex);
 
-void playerInitialization(struct Player *player,char *playerName, enum PlayerSymbolCode psc);
+void playerInitialization(struct Player *player,char *playerName, enum PlayerSymbolCode psc,bool isBot);
 
 void displayPlayer(struct Player *player);
 

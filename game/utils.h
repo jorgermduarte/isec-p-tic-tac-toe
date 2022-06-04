@@ -4,7 +4,7 @@
 
 #ifndef TIC_TAC_TOE_UTILS_H
 #define TIC_TAC_TOE_UTILS_H
-#include "game.h"
+#include "gameBoard.h"
 
 void displayString(char* target);
 int lengthString(char* target);
