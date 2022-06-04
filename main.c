@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "game/gameBoard.h";
-#include "game/utils.h"
 #include "game/modes/HumanVsHuman.h"
 #include "game/modes/HumanVsBot.h"
 #include <stdlib.h>
