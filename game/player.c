@@ -97,7 +97,7 @@ void setPlayerBoardVictory(struct Game *gameBoard,struct Board *b,int *boardInde
     printf("Player ");
     displayString(gameBoard->currentlyPlaying->name);
     printf(" Won the board %d.\n",*boardIndex);
-    printf("==================================\n");
+    printf("=========================================\n");
 }
 
 int BotAction_selectMatrixIndex(struct Game *gameBoard, int boardIndex){
