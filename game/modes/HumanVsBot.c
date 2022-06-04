@@ -3,14 +3,9 @@
 //
 
 #include <stdlib.h>
-#include <time.h>
 #include "HumanVsBot.h"
 #include "../player.h"
 #include "../utils.h"
-
-struct Player playerHuman, playerBot;
-
-
 
 int BotAction_selectBoardIndex(struct Game *gameBoard){
     int x = rand() % TOTAL_BOARDS;
@@ -90,20 +85,29 @@ void private_startHumanVsBot(struct Game *gameBoard) {
 
 void startHumanVsBot(struct Game *gameBoard) {
 
-    //Players initialization
+    struct Player *ptr1;
+    struct Player *ptr2;
+    ptr1 = (struct Player*) malloc(sizeof(struct Player));
+    ptr2 = (struct Player*) malloc(sizeof(struct Player));
 
-    playerInitialization(&playerHuman, "One", PLAYER_SYMBOL_BALL,false);
-    playerInitialization(&playerBot, "Bot", PLAYER_SYMBOL_X,true);
-
-    displayPlayer(&playerHuman);
-    displayPlayer(&playerBot);
-
-    //set the board players;
-    gameBoard->players[0] = &playerHuman;
-    gameBoard->players[1] = &playerBot;
+    char *pname;
 
     //game display initialization
     cleanGameBoard(&gameBoard);
+
+    printf("Please provide the player one name: \n");
+    scanf("%s", &pname);
+
+    playerInitialization(ptr1,&pname,PLAYER_SYMBOL_BALL,false);
+    playerInitialization(ptr2,"BOT",PLAYER_SYMBOL_X,true);
+
+    displayPlayer(ptr1);
+    displayPlayer(ptr2);
+
+    //set the board players;
+    gameBoard->players[0] = ptr1;
+    gameBoard->players[1] = ptr2;
+
     displayGameBoard(&gameBoard);
 
     private_startHumanVsBot(gameBoard);

@@ -8,6 +8,8 @@
 #include <stdbool.h>
 #include "gameBoard.h"
 
+#define PLAYER_NAME_SIZE 5
+
 enum PlayerSymbolCode{
     PLAYER_SYMBOL_NULL = 0,
     PLAYER_SYMBOL_BALL = 1,
@@ -15,7 +17,7 @@ enum PlayerSymbolCode{
 };
 
 typedef struct Player{
-    char name[3];
+    char name[PLAYER_NAME_SIZE];
     int victories;
     int defeats;
     enum PlayerSymbolCode symbol; // if the player is the O,X ou another symbol
@@ -31,7 +33,7 @@ typedef struct Player{
  */
 int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex);
 
-void playerInitialization(struct Player *player,char *playerName, enum PlayerSymbolCode psc,bool isBot);
+void playerInitialization(struct Player *player,char *target, enum PlayerSymbolCode psc,bool isBot);
 
 void displayPlayer(struct Player *player);
 

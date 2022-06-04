@@ -4,6 +4,7 @@
 
 #include "gameBoard.h"
 #include "utils.h"
+#include <stdlib.h>
 
 void displaySingleBoard(struct Board target){
     int column,line;
@@ -71,7 +72,6 @@ void displayGameBoardsValues(struct Board boards[TOTAL_BOARDS], int startIndex){
         }
 
     }
-    //printf("startindex: %d , ended: %d \n",startIndex,startIndex+BOARD_MATRIX_ORDER);
 
     if(startIndex < TOTAL_BOARDS-BOARD_MATRIX_ORDER)
         displayGameBoards(boards,(startIndex+BOARD_MATRIX_ORDER));
@@ -101,6 +101,7 @@ void cleanGameBoard(struct Game *game){
     }
     game->currentlyPlaying = NULL;
     game->gameFinished = false;
+
 }
 
 int startGame(){

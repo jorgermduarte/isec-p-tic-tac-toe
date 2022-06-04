@@ -5,9 +5,7 @@
 #include "HumanVsHuman.h"
 #include "../player.h";
 #include "../utils.h"
-
-struct Player player1, player2;
-
+#include <stdlib.h>
 
 void private_startGameHumanVsHuman(struct Game *gameBoard) {
     //define the board first player if it is NULL
@@ -61,26 +59,48 @@ void private_startGameHumanVsHuman(struct Game *gameBoard) {
             private_startGameHumanVsHuman(gameBoard);
         }
     }
+
+    if(gameBoard->gameFinished){
+        //todo - should i do something when the game end?
+        //free the memory left or smthg?
+    }
 }
 
 void startHumanVsHuman(struct Game *gameBoard) {
-
     //Players initialization
-    playerInitialization(&player1, "One", PLAYER_SYMBOL_BALL,false);
-    playerInitialization(&player2, "Two", PLAYER_SYMBOL_X,false);
+    //struct Player defaultdata;
+    struct Player *ptr1;
+    struct Player *ptr2;
+    ptr1 = (struct Player*) malloc(sizeof(struct Player));
+    ptr2 = (struct Player*) malloc(sizeof(struct Player));
 
-    displayPlayer(&player1);
-    displayPlayer(&player2);
-
-    //set the board players;
-    gameBoard->players[0] = &player1;
-    gameBoard->players[1] = &player2;
+    char *pname1;
+    char *pname2;
 
     //game display initialization
     cleanGameBoard(&gameBoard);
+
+    printf("Please provide the player one name: \n");
+    scanf("%s", &pname1);
+
+    printf("Please provide the player two name: \n");
+    scanf("%s", &pname2);
+
+    playerInitialization(ptr1,&pname1,PLAYER_SYMBOL_BALL,false);
+    playerInitialization(ptr2,&pname2,PLAYER_SYMBOL_X,false);
+
+    displayPlayer(ptr1);
+    displayPlayer(ptr2);
+
+    //set the board players;
+    gameBoard->players[0] = ptr1;
+    gameBoard->players[1] = ptr2;
+
     displayGameBoard(&gameBoard);
 
     private_startGameHumanVsHuman(gameBoard);
+
+
 }
 
 

@@ -188,19 +188,24 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
     return playIndex;
 }
 
-void playerInitialization(struct Player *player,char *playerName, enum PlayerSymbolCode psc,bool isBot){
+void playerInitialization(struct Player *player,char *target, enum PlayerSymbolCode psc,bool isBot){
     int i = 0;
-
-    while (*playerName != '\0'){
-        player->name[i] = *playerName;
-        playerName++;
-        i++;
-    }
-
     player->defeats = 0;
     player->victories = 0;
     player->symbol = psc;
     player->isBot = isBot;
+
+    while(*target != '\0'){
+        player->name[i] = *target;
+        target = target + 1;
+        i = i+1;
+    }
+    for(i ; i < PLAYER_NAME_SIZE+1; i++){
+        player->name[i] = ' ';
+    }
+
+
+
 }
 
 void displayPlayer(struct Player *player){
