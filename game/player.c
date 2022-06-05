@@ -161,6 +161,9 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
         b->board[row][column] = gameBoard->currentlyPlaying->symbol;
         displayGameBoard(gameBoard);
 
+        //increment play move
+        gameBoard->playsCounter += 1;
+
         //verify by line
         bool winLine = VerifyPlayerWinByLine(b);
 
@@ -182,6 +185,8 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
         registerPlay(gameBoard,*boardIndex,playIndex);
 
         displayAllPlays(gameBoard);
+
+        displayLastNPlays(gameBoard,3);
 
         //Verify if on the outside boards game someone won
         verifyBoardVictory(gameBoard);

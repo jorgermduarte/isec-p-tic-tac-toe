@@ -39,6 +39,7 @@ typedef struct UserPlay{
     int matrixIndex; // the matrix tic tac toe index
     struct Player *player;
     struct UserPlay *next;
+    struct UserPlay *previous;
 };
 
 /*
@@ -74,7 +75,7 @@ int startGame();
 
 void registerPlay(struct Game *game, int boardNumber, int matrixIndex);
 
-void displayPlays(struct Game *game,int total);
+void displayLastNPlays(struct Game *game,int total);
 
 void displayAllPlays(struct Game *game);
 

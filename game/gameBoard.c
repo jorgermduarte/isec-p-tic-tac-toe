@@ -207,6 +207,7 @@ void registerPlay(struct Game *game, int boardNumber, int matrixIndex) {
     newPlay->matrixIndex = matrixIndex;
     newPlay->playNumber = game->playsCounter;
     newPlay->next = NULL;
+    newPlay->previous = NULL;
 
     //if there isn't any board play
     if(game->boardPlays == NULL){
@@ -215,6 +216,7 @@ void registerPlay(struct Game *game, int boardNumber, int matrixIndex) {
     }else{
         //find Tail and append to the tail new register
         struct UserPlay *tail = getPlaysTailPointer(game);
+        newPlay->previous = tail;
         tail->next = newPlay;
         //printf(" > User play registered at the tail of the linked-list\n");
     }
@@ -223,27 +225,39 @@ void registerPlay(struct Game *game, int boardNumber, int matrixIndex) {
 void displayAllPlays(struct Game *game){
     struct UserPlay *current = game->boardPlays;
     if(current != NULL){
-        printf("[PLAYER MOVES] Listing all the moves made by the players\n");
+        printf(" > [PLAYER MOVES] Listing all moves \n");
         while(current != NULL && current->next != NULL){
             printf("[%d]: Board: [%d], Index: [%d] - ", current->playNumber,current->boardNumber,current->matrixIndex);
             displayString(current->player->name);
             printf("\n");
             current = current->next;
         }
-    }
-}
-
-void displayPlays(struct Game *game,int total){
-    struct UserPlay *current = game->boardPlays;
-    int i = 1;
-    if(current != NULL){
-        while(current->next != NULL && i < total){
+        if(current != NULL){
             printf("[%d]: Board: [%d], Index: [%d] - ", current->playNumber,current->boardNumber,current->matrixIndex);
             displayString(current->player->name);
             printf("\n");
-            current = current->next;
-            i++;
         }
     }
-    free(current);
+}
+
+void displayLastNPlays(struct Game *game,int total){
+    struct UserPlay *tail = getPlaysTailPointer(game);
+    struct UserPlay *current = tail;
+    int i = 0;
+    printf("============== ======= === ==============\n");
+    printf(" ---- Displaying the last %d plays ----- \n",total);
+
+    if(current != NULL){
+        while(current != NULL && total > i){
+            printf("[%d]: Board: [%d], Index: [%d] - ", current->playNumber,current->boardNumber,current->matrixIndex);
+            displayString(current->player->name);
+            printf("\n");
+            i = i+1;
+            if(current->previous)
+                current = current->previous;
+            else
+                current = NULL;
+        }
+    }
+
 }
