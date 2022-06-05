@@ -30,6 +30,15 @@ typedef struct Game{
     struct Player *players[2];
     enum GameMode gameMode;
     bool gameFinished;
+    struct UserPlay *boardPlays;
+};;
+
+typedef struct UserPlay{
+    int playNumber; // the play number that auto-increments
+    int boardNumber; // the game board number
+    int matrixIndex; // the matrix tic tac toe index
+    struct Player *player;
+    struct UserPlay *next;
 };
 
 /*
@@ -61,5 +70,13 @@ bool checkIfGameBoardIsValid(struct Game *game, int boardIndex);
 void verifyBoardVictory(struct Game * game);
 
 int startGame();
+
+
+void registerPlay(struct Game *game, int boardNumber, int matrixIndex);
+
+void displayPlays(struct Game *game,int total);
+
+void displayAllPlays(struct Game *game);
+
 
 #endif //TIC_TAC_TOE_GAMEBOARD_H

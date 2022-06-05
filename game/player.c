@@ -173,13 +173,18 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
         //verify by diag inverted
         bool winDiagInverted = VerifyPlayerWinByDiagInverted(b);
 
-        if(winLine || winColumn || winDiag || winDiagInverted){
+        bool playerWonBoard = winLine || winColumn || winDiag || winDiagInverted;
+
+        if(playerWonBoard){
             setPlayerBoardVictory(gameBoard,b,boardIndex);
         }
 
+        registerPlay(gameBoard,*boardIndex,playIndex);
+
+        displayAllPlays(gameBoard);
+
         //Verify if on the outside boards game someone won
         verifyBoardVictory(gameBoard);
-
     }
 
 

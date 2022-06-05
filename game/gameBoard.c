@@ -184,3 +184,66 @@ void verifyBoardVictory(struct Game * game){
     }
     printf("============== ########### ==============\n");
 }
+
+
+struct UserPlay* getPlaysTailPointer(struct Game * game){
+    if(game->boardPlays == NULL)
+        return NULL;
+    else{
+        struct UserPlay *current = game->boardPlays;
+        while(current->next != NULL){
+            current = current->next;
+        }
+        return current;
+    }
+}
+
+void registerPlay(struct Game *game, int boardNumber, int matrixIndex) {
+    struct UserPlay *newPlay;
+    newPlay = (struct UserPlay*) malloc(sizeof(struct UserPlay));
+
+    newPlay->player = game->currentlyPlaying;
+    newPlay->boardNumber = boardNumber;
+    newPlay->matrixIndex = matrixIndex;
+    newPlay->playNumber = game->playsCounter;
+    newPlay->next = NULL;
+
+    //if there isn't any board play
+    if(game->boardPlays == NULL){
+        game->boardPlays = newPlay;
+        //printf(" > User play registered at the head of the linked-list [first-move]\n");
+    }else{
+        //find Tail and append to the tail new register
+        struct UserPlay *tail = getPlaysTailPointer(game);
+        tail->next = newPlay;
+        //printf(" > User play registered at the tail of the linked-list\n");
+    }
+}
+
+void displayAllPlays(struct Game *game){
+    struct UserPlay *current = game->boardPlays;
+    if(current != NULL){
+        printf("[PLAYER MOVES] Listing all the moves made by the players\n");
+        while(current != NULL && current->next != NULL){
+            printf("[%d]: Board: [%d], Index: [%d] - ", current->playNumber,current->boardNumber,current->matrixIndex);
+            displayString(current->player->name);
+            printf("\n");
+            current = current->next;
+        }
+    }
+}
+
+void displayPlays(struct Game *game,int total){
+    struct UserPlay *current = game->boardPlays;
+    int i = 1;
+    if(current != NULL){
+        while(current->next != NULL && i < total){
+            printf("[%d]: Board: [%d], Index: [%d] - ", current->playNumber,current->boardNumber,current->matrixIndex);
+            displayString(current->player->name);
+            printf("\n");
+            current = current->next;
+            i++;
+        }
+    }
+    free(current);
+}
