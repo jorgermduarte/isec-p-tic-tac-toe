@@ -281,9 +281,9 @@ void saveCurrentGameStatus(struct Game *game){
         currentPlay = currentPlay->next;
     }
 
-    printf(" > Saved game successfully...\n");
-
     fclose(write_ptr);
+
+    printf(" > Saved game successfully...\n");
 }
 
 void loadGameStatusFromFile() {
@@ -304,5 +304,31 @@ void loadGameStatusFromFile() {
         printf("[SNUM: %d] %s ",aux.player.symbol,aux.player.name);
         printf(" - Jogada numero: %d , Board : %d , Index: %d \n",aux.playNumber,aux.boardNumber,aux.matrixIndex);
     }
+
+}
+
+
+void saveGameVictory(struct Game * game){
+    printf("============== ======= === ==============\n");
+
+    FILE *f = fopen(FILE_NAME_VICTORY, "w");
+    if (f == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+
+
+    printf(" > Saving file game victory... \n");
+    struct UserPlay *currentPlay = game->boardPlays;
+
+    while(currentPlay != NULL){
+        fprintf(f,"Player: %s, PlayerSymbolNumber: %d, PlayNumber: %d, BoardNumber: %d, Index:%d\n",currentPlay->player->name,currentPlay->player->symbol, currentPlay->playNumber,currentPlay->boardNumber,currentPlay->matrixIndex);
+        currentPlay = currentPlay->next;
+    }
+
+    fclose(f);
+
+    printf(" > Saved file successfully...\n");
 
 }

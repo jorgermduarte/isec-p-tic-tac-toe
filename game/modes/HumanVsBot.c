@@ -99,6 +99,10 @@ void private_startHumanVsBot(struct Game *gameBoard) {
             displayLastNPlays(gameBoard,totalMoves);
         }
     }
+
+    if(gameBoard->gameFinished){
+        saveGameVictory(gameBoard);
+    }
 }
 
 void startHumanVsBot(struct Game *gameBoard) {

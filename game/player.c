@@ -183,13 +183,7 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
 
         registerPlay(gameBoard,*boardIndex,playIndex);
 
-        //displayAllPlays(gameBoard);
-
-
-
         saveCurrentGameStatus(gameBoard);
-
-        //loadGameStatusFromFile();
 
         //Verify if on the outside boards game someone won
         verifyBoardVictory(gameBoard);

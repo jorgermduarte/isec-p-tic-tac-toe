@@ -77,8 +77,7 @@ void private_startGameHumanVsHuman(struct Game *gameBoard) {
     }
 
     if(gameBoard->gameFinished){
-        //todo - should i do something when the game end?
-        // ask user for the file name to save all the plays made on the game to a .txt file
+        saveGameVictory(gameBoard);
     }
 }
 

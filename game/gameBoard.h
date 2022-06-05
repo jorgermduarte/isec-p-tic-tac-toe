@@ -10,6 +10,7 @@
 #include "player.h"
 
 #define FILE_NAME_SAVE_GAME "jogo.bin"
+#define FILE_NAME_VICTORY "victory.txt"
 #define BOARD_MATRIX_ORDER 3
 #define TOTAL_BOARDS 9
 
@@ -105,5 +106,8 @@ void displayAllPlays(struct Game *game);
 void saveCurrentGameStatus(struct Game *game);
 
 void loadGameStatusFromFile();
+
+
+void saveGameVictory(struct Game * game);
 
 #endif //TIC_TAC_TOE_GAMEBOARD_H
