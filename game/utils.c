@@ -29,7 +29,6 @@ void updateString(char* target,char* value){
     char *aux = NULL;
     aux = realloc(target,sizeof(char) * (strLen+1));
     if(aux != NULL){
-        printf("é isso bino\n");
         //setStringFromPointer(target,value);
     }
     printf("===========================\n");

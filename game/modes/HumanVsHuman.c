@@ -28,41 +28,57 @@ void private_startGameHumanVsHuman(struct Game *gameBoard) {
     //while the current game(Tic Tac Toe) is running
     while (!gameBoard->gameFinished) {
 
-        //Verify if the board index the user is trying to play really exists
-        if (checkIfGameBoardIsValid(gameBoard, boardIndex)) {
+        printf("======== What do you want to do ==========\n");
+        printf("1 -> Play\n");
+        printf("2 -> List last N game moves\n");
+        printf("============ ============== ===============\n");
+        printf("Your input selection: ");
+        int userSelectionOp;
+        scanf("%d",&userSelectionOp);
 
-            //If the board is already completed (last boardIndex), the user can select in wich board he wants to play
-            while (gameBoard->boards[boardIndex].finished == true) {
-                printf("\n The player before as put a selection in one board that is already finished. \n");
-                printf("Select the new board you want to play your next move: ");
-                scanf("%d", &boardIndex);
-            }
 
-            //check again if the boardIndex is valid because he could have entered the previous condition.
-            if (!checkIfGameBoardIsValid(gameBoard, boardIndex)) { //if it is not valid
-                private_startGameHumanVsHuman(gameBoard);
+        if(userSelectionOp == 1){
+            //Verify if the board index the user is trying to play really exists
+            if (checkIfGameBoardIsValid(gameBoard, boardIndex)) {
+
+                //If the board is already completed (last boardIndex), the user can select in wich board he wants to play
+                while (gameBoard->boards[boardIndex].finished == true) {
+                    printf("\n The player before as put a selection in one board that is already finished. \n");
+                    printf("Select the new board you want to play your next move: ");
+                    scanf("%d", &boardIndex);
+                }
+
+                //check again if the boardIndex is valid because he could have entered the previous condition.
+                if (!checkIfGameBoardIsValid(gameBoard, boardIndex)) { //if it is not valid
+                    private_startGameHumanVsHuman(gameBoard);
+                } else {
+                    // every condition is met and all parameters are valid
+                    // do the player action move
+                    boardIndex = playMove(gameBoard, &(gameBoard->boards[boardIndex]), &boardIndex);
+
+                    //define the next player to play
+                    if (gameBoard->currentlyPlaying == gameBoard->players[0])
+                        gameBoard->currentlyPlaying = gameBoard->players[1];
+                    else
+                        gameBoard->currentlyPlaying = gameBoard->players[0];
+                }
+
             } else {
-                // every condition is met and all parameters are valid
-                // do the player action move
-                boardIndex = playMove(gameBoard, &(gameBoard->boards[boardIndex]), &boardIndex);
-
-                //define the next player to play
-                if (gameBoard->currentlyPlaying == gameBoard->players[0])
-                    gameBoard->currentlyPlaying = gameBoard->players[1];
-                else
-                    gameBoard->currentlyPlaying = gameBoard->players[0];
+                // the user provided an invalid board index, invoke the function again
+                printf("The board index provided by is invalid. Please provide a valid board index!\n");
+                private_startGameHumanVsHuman(gameBoard);
             }
-
-        } else {
-            // the user provided an invalid board index, invoke the function again
-            printf("The board index provided by is invalid. Please provide a valid board index!\n");
-            private_startGameHumanVsHuman(gameBoard);
+        }else if(userSelectionOp == 2){
+            int totalMoves = 0;
+            printf("How many last moves do you want to see?\n");
+            scanf("%d",&totalMoves);
+            displayLastNPlays(gameBoard,totalMoves);
         }
     }
 
     if(gameBoard->gameFinished){
         //todo - should i do something when the game end?
-        //free the memory left or smthg?
+        // ask user for the file name to save all the plays made on the game to a .txt file
     }
 }
 

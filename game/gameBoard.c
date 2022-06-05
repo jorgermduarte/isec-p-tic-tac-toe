@@ -178,9 +178,7 @@ void verifyBoardVictory(struct Game * game){
         game->gameFinished = true;
         game->currentlyPlaying->victories++;
 
-        printf("Congratulations! The player ");
-        displayString(game->currentlyPlaying);
-        printf(" won the game!\n");
+        printf("Congratulations! The player %s won the game! \n", game->currentlyPlaying->name);
     }
     printf("============== ########### ==============\n");
 }

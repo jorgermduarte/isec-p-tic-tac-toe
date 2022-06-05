@@ -136,7 +136,6 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
         scanf("%d",&playIndex);
     }
 
-
     //verify if the play index the user is trying to play really exists;
     int limitIndex = pow(BOARD_MATRIX_ORDER,2) -1;
     if(playIndex > limitIndex || playIndex < 0){
@@ -184,13 +183,13 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
 
         registerPlay(gameBoard,*boardIndex,playIndex);
 
-        displayAllPlays(gameBoard);
+        //displayAllPlays(gameBoard);
 
-        displayLastNPlays(gameBoard,3);
+
 
         saveCurrentGameStatus(gameBoard);
 
-        loadGameStatusFromFile();
+        //loadGameStatusFromFile();
 
         //Verify if on the outside boards game someone won
         verifyBoardVictory(gameBoard);

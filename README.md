@@ -7,7 +7,7 @@
   - O jogo deve ser mantido num array dinâmico
   - A sucessão de jogadas realizadas deve ser mantida numa lista ligada simples.
     - Informação correspondente a jogada, respetivo jogador e board.
-  - [ ] Antes de cada jogada, um jogador poderá solicitar a visualização das K jogadas anteriores
+  - Antes de cada jogada, um jogador poderá solicitar a visualização das K jogadas anteriores
     (K varia entre 1 e 10, sendo o valor indicado pelo jogador que efetua o pedido).
     - Deve apenas mostrar as jogadas efetuadas (por exemplo, o jogador X efetuou a jogada Y),
       não sendo necessário mostrar os tabuleiros completos.
