@@ -5,6 +5,7 @@
 #include "gameBoard.h"
 #include "utils.h"
 #include <stdlib.h>
+#include <string.h>
 
 void displaySingleBoard(struct Board target){
     int column,line;
@@ -43,7 +44,6 @@ void displayGameBoards(struct Board boards[TOTAL_BOARDS], int startIndex){
         }
 
     }
-    //printf("startindex: %d , ended: %d \n",startIndex,startIndex+BOARD_MATRIX_ORDER);
 
     if(startIndex < TOTAL_BOARDS-BOARD_MATRIX_ORDER)
         displayGameBoards(boards,(startIndex+BOARD_MATRIX_ORDER));
@@ -258,6 +258,53 @@ void displayLastNPlays(struct Game *game,int total){
             else
                 current = NULL;
         }
+    }
+
+}
+
+
+
+void saveCurrentGameStatus(struct Game *game){
+    FILE *write_ptr = NULL;
+
+    write_ptr = fopen(FILE_NAME_SAVE_GAME,"wb");
+    printf("============== ======= === ==============\n");
+    printf(" > Syncing game status (saving) ....\n");
+
+    struct UserPlay *currentPlay = game->boardPlays;
+
+    while(currentPlay != NULL){
+
+        struct UserPlayFile newData;
+        memcpy(&newData,currentPlay,sizeof(struct UserPlayFile));
+        memcpy(&newData.player,currentPlay->player,sizeof(struct Player));
+
+        fwrite(&newData, sizeof(struct UserPlayFile),1,write_ptr);
+        currentPlay = currentPlay->next;
+    }
+
+    printf(" > Saved game successfully...\n");
+
+    fclose(write_ptr);
+}
+
+void loadGameStatusFromFile() {
+    FILE *f = NULL;
+    struct UserPlayFile aux;
+
+    f = fopen(FILE_NAME_SAVE_GAME, "rb");
+
+    printf("============== ======= === ==============\n");
+    printf("Reading from file the current game status: \n");
+
+    if (f == NULL) {
+        printf("Erro no acesso ao ficheiro %s\n", FILE_NAME_SAVE_GAME);
+        return;
+    }
+
+    while(fread(&aux,sizeof(struct UserPlayFile),1,f) == 1){
+        printf("[SNUM: %d] %s ",aux.player.symbol,aux.player.name);
+        printf(" - Jogada numero: %d , Board : %d , Index: %d \n",aux.playNumber,aux.boardNumber,aux.matrixIndex);
     }
 
 }

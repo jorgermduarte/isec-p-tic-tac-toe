@@ -188,6 +188,10 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
 
         displayLastNPlays(gameBoard,3);
 
+        saveCurrentGameStatus(gameBoard);
+
+        loadGameStatusFromFile();
+
         //Verify if on the outside boards game someone won
         verifyBoardVictory(gameBoard);
     }

@@ -10,7 +10,7 @@
 
 #define PLAYER_NAME_SIZE 5
 
-enum PlayerSymbolCode{
+typedef enum PlayerSymbolCode{
     PLAYER_SYMBOL_NULL = 0,
     PLAYER_SYMBOL_BALL = 1,
     PLAYER_SYMBOL_X = 2,

@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include "player.h"
 
+#define FILE_NAME_SAVE_GAME "jogo.bin"
 #define BOARD_MATRIX_ORDER 3
 #define TOTAL_BOARDS 9
 
@@ -42,6 +43,27 @@ typedef struct UserPlay{
     struct UserPlay *previous;
 };
 
+
+typedef enum PlayerSymbolCodeFile{
+    FILE_PLAYER_SYMBOL_NULL = 0,
+    FILE_PLAYER_SYMBOL_BALL = 1,
+    FILE_PLAYER_SYMBOL_X = 2,
+};
+
+typedef struct PlayerFile{
+    char name[5];
+    int victories;
+    int defeats;
+    enum PlayerSymbolCodeFile symbol; // if the player is the O,X ou another symbol
+    bool isBot;
+};
+
+typedef struct UserPlayFile{
+    int playNumber; // the play number that auto-increments
+    int boardNumber; // the game board number
+    int matrixIndex; // the matrix tic tac toe index
+    struct PlayerFile player;
+};
 /*
  * Verify if the game should end and if every board is finished
  */
@@ -79,5 +101,9 @@ void displayLastNPlays(struct Game *game,int total);
 
 void displayAllPlays(struct Game *game);
 
+
+void saveCurrentGameStatus(struct Game *game);
+
+void loadGameStatusFromFile();
 
 #endif //TIC_TAC_TOE_GAMEBOARD_H

@@ -12,7 +12,7 @@
     - Deve apenas mostrar as jogadas efetuadas (por exemplo, o jogador X efetuou a jogada Y),
       não sendo necessário mostrar os tabuleiros completos.
 - ### Interrupção do Jogo
-  - [ ] O programa deve guardar num ficheiro binário, com nome “jogo.bin”, a lista das jogadas que
+  - O programa deve guardar num ficheiro binário, com nome “jogo.bin”, a lista das jogadas que
     está armazenada na lista ligada e outra informação essencial para retomar o jogo mais tarde.
   - [ ] Quando a aplicação é reiniciada deverá ser verificada a existência do ficheiro e, caso exista, o utilizador deverá ser questionado sobre
     se pretende continuar o jogo anterior.
