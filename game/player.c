@@ -92,11 +92,9 @@ bool VerifyPlayerWinByDiag(struct Board *b){
 void setPlayerBoardVictory(struct Game *gameBoard,struct Board *b,int *boardIndex ){
     b->finished = true;
     b->winner = gameBoard->currentlyPlaying;
+    //todo - remove this? victories?
     gameBoard->currentlyPlaying->victories++;
-    //todo - change XXX with the player name
-    printf("Player ");
-    displayString(gameBoard->currentlyPlaying->name);
-    printf(" Won the board %d.\n",*boardIndex);
+    printf(" Player %s won the board %d.\n",gameBoard->currentlyPlaying->name,*boardIndex);
     printf("=========================================\n");
 }
 
@@ -118,6 +116,28 @@ int BotAction_selectMatrixIndex(struct Game *gameBoard, int boardIndex){
     }
     else
         return BotAction_selectMatrixIndex(gameBoard,boardIndex);
+}
+
+
+
+bool VerifyPlayerBoardDraw(struct Board *b){
+    bool isNullDetected = false;
+    int column,line;
+    for(line =0; line < BOARD_MATRIX_ORDER;line++){
+        for(column = 0; column < BOARD_MATRIX_ORDER; column++){
+            if( b->board[line][column] == PLAYER_SYMBOL_NULL){
+                isNullDetected = true;
+            }
+        }
+    }
+
+    //if there isnt any null that means that all the board is filled, so lets set the finished draw board
+    if(isNullDetected == false){
+        b->finished = true;
+        b->winner = NULL;
+    }
+
+    return isNullDetected ? false : true;
 }
 
 int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
@@ -179,9 +199,16 @@ int playMove(struct Game *gameBoard,struct Board *b,int *boardIndex){
 
         if(playerWonBoard){
             setPlayerBoardVictory(gameBoard,b,boardIndex);
+        }else{
+            //verify draw ( if the board ended and there isnt any winner)
+            bool drawGame = VerifyPlayerBoardDraw(b);
+
+            if(drawGame){
+                printf("> The board %d ended up in a draw ! \n",*boardIndex);
+            }
         }
 
-        registerPlay(gameBoard,*boardIndex,playIndex);
+        registerPlay(gameBoard,*boardIndex,playIndex,playerWonBoard,gameBoard->boards[*boardIndex].finished);
 
         saveCurrentGameStatus(gameBoard);
 

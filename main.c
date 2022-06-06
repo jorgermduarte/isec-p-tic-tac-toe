@@ -4,13 +4,7 @@
 #include "game/modes/HumanVsBot.h"
 #include <stdlib.h>
 
-int main() {
-
-    // main game structure and players ( Global Variables )
-    struct Game *gameBoard = NULL;
-    gameBoard = malloc(sizeof(struct Game));
-    cleanGameBoard(&gameBoard);
-
+void initializeGame(struct Game *gameBoard){
     int userOption = startGame();
     switch (userOption) {
         case 0:
@@ -27,8 +21,50 @@ int main() {
             break;
         default:
             printf("Please provide a valid option :(\n");
-            main();
+            initializeGame(gameBoard);
             break;
     }
+
+}
+
+int main() {
+    // main game structure and players ( Global Variables )
+    struct Game *gameBoard = NULL;
+    gameBoard = malloc(sizeof(struct Game));
+    cleanGameBoard(gameBoard);
+
+    bool existGameFile = verifyGameRunningAfterExit();
+
+    if(!existGameFile){
+        initializeGame(gameBoard);
+    }else{
+        printf("============== ======= === ==============\n");
+        printf("Game execution file detected, do you want to load the previous game? \n");
+        printf("1 -> Yes\n");
+        printf("0 -> No\n");
+        printf("Your input selection: ");
+        int userOption;
+        scanf("%d",&userOption);
+        printf("============== ======= === ==============\n");
+
+        switch (userOption) {
+            case 0:
+                //delete the execution file
+                deleteGameFileData();
+
+                //initialize game
+                initializeGame(gameBoard);
+                break;
+            case 1:
+                //generate the game status based on the file
+                loadGameFromSaveFile(gameBoard);
+                break;
+            default:
+                main();
+                break;
+        }
+    }
+
     return 0;
 }
+

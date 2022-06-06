@@ -4,7 +4,6 @@
 
 #include <stdlib.h>
 #include "HumanVsBot.h"
-#include "../player.h"
 #include "../utils.h"
 
 int BotAction_selectBoardIndex(struct Game *gameBoard){
@@ -16,28 +15,34 @@ int BotAction_selectBoardIndex(struct Game *gameBoard){
         BotAction_selectBoardIndex(gameBoard);
 }
 
-void private_startHumanVsBot(struct Game *gameBoard) {
-    //define the board first player if it is NULL
-    if (gameBoard->currentlyPlaying == NULL) {
-        gameBoard->currentlyPlaying = gameBoard->players[0];
-        printf("Defined the first player as: Player ");
-        displayString(gameBoard->players[0]);
-        printf("\n");
-    }
-
-    //ask first player in wich board index does he want to play is first move
-    printf("=========================================\n");
-    printf("Player ");
-    displayString(gameBoard->currentlyPlaying->name);
-    printf(", in wich board index do you want to play your move? \n");
-    printf("Board Index: ");
+void private_startHumanVsBot(struct Game *gameBoard,bool skip, int newBoardIndex) {
     int boardIndex = 0;
 
-    //check if the player is playing or is the bot instead
-    if(gameBoard->currentlyPlaying->isBot){
-        boardIndex = BotAction_selectBoardIndex(gameBoard);
+    if(!skip){
+        //define the board first player if it is NULL
+        if (gameBoard->currentlyPlaying == NULL) {
+            gameBoard->currentlyPlaying = gameBoard->players[0];
+            printf("Defined the first player as: Player ");
+            displayString(gameBoard->players[0]);
+            printf("\n");
+        }
+
+        //ask first player in wich board index does he want to play is first move
+        printf("=========================================\n");
+        printf("Player ");
+        displayString(gameBoard->currentlyPlaying->name);
+        printf(", in wich board index do you want to play your move? \n");
+        printf("Board Index: ");
+
+        //check if the player is playing or is the bot instead
+        if(gameBoard->currentlyPlaying->isBot){
+            boardIndex = BotAction_selectBoardIndex(gameBoard);
+        }else{
+            scanf("%d", &boardIndex); //index of the game board
+        }
+
     }else{
-        scanf("%d", &boardIndex); //index of the game board
+        boardIndex = newBoardIndex;
     }
 
 
@@ -74,7 +79,7 @@ void private_startHumanVsBot(struct Game *gameBoard) {
 
                 //check again if the boardIndex is valid because he could have entered the previous condition.
                 if (!checkIfGameBoardIsValid(gameBoard, boardIndex)) { //if it is not valid
-                    private_startHumanVsBot(gameBoard);
+                    private_startHumanVsBot(gameBoard,false,0);
                 } else {
                     // every condition is met and all parameters are valid
                     // do the player action move
@@ -90,7 +95,7 @@ void private_startHumanVsBot(struct Game *gameBoard) {
             } else {
                 // the user provided an invalid board index, invoke the function again
                 printf("The board index provided by is invalid. Please provide a valid board index!\n");
-                private_startHumanVsBot(gameBoard);
+                private_startHumanVsBot(gameBoard,false,0);
             }
         }else{
             int totalMoves = 0;
@@ -101,6 +106,7 @@ void private_startHumanVsBot(struct Game *gameBoard) {
     }
 
     if(gameBoard->gameFinished){
+        deleteGameFileData();
         saveGameVictory(gameBoard);
     }
 }
@@ -115,7 +121,7 @@ void startHumanVsBot(struct Game *gameBoard) {
     char *pname;
 
     //game display initialization
-    cleanGameBoard(&gameBoard);
+    cleanGameBoard(gameBoard);
 
     printf("Please provide the player one name: \n");
     scanf("%s", &pname);
@@ -130,8 +136,7 @@ void startHumanVsBot(struct Game *gameBoard) {
     gameBoard->players[0] = ptr1;
     gameBoard->players[1] = ptr2;
 
-    displayGameBoard(&gameBoard);
-
-    private_startHumanVsBot(gameBoard);
+    displayGameBoard(gameBoard);
+    private_startHumanVsBot(gameBoard,false,0);
 }
 

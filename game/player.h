@@ -14,6 +14,7 @@ typedef enum PlayerSymbolCode{
     PLAYER_SYMBOL_NULL = 0,
     PLAYER_SYMBOL_BALL = 1,
     PLAYER_SYMBOL_X = 2,
+    PLAYER_SYMBOL_DRAW = 3
 };
 
 typedef struct Player{
@@ -41,6 +42,7 @@ bool VerifyPlayerWinByLine(struct Board *b);
 bool VerifyPlayerWinByColumn(struct Board *b);
 bool VerifyPlayerWinByDiagInverted(struct Board *b);
 bool VerifyPlayerWinByDiag(struct Board *b);
+bool VerifyPlayerBoardDraw(struct Board *b);
 
 
 #endif //TIC_TAC_TOE_PLAYER_H

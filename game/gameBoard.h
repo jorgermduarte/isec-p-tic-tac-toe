@@ -39,6 +39,8 @@ typedef struct UserPlay{
     int playNumber; // the play number that auto-increments
     int boardNumber; // the game board number
     int matrixIndex; // the matrix tic tac toe index
+    bool wonBoard; // if the player on the board based on this move
+    bool boardClosed; // if the board was  based on this move
     struct Player *player;
     struct UserPlay *next;
     struct UserPlay *previous;
@@ -63,6 +65,8 @@ typedef struct UserPlayFile{
     int playNumber; // the play number that auto-increments
     int boardNumber; // the game board number
     int matrixIndex; // the matrix tic tac toe index
+    bool wonBoard; // if the player on the board based on this move
+    bool boardClosed; // if the board was  based on this move
     struct PlayerFile player;
 };
 /*
@@ -96,7 +100,7 @@ void verifyBoardVictory(struct Game * game);
 int startGame();
 
 
-void registerPlay(struct Game *game, int boardNumber, int matrixIndex);
+void registerPlay(struct Game *game, int boardNumber, int matrixIndex,bool wonBoard, bool boardClosed);
 
 void displayLastNPlays(struct Game *game,int total);
 
@@ -108,6 +112,13 @@ void saveCurrentGameStatus(struct Game *game);
 void loadGameStatusFromFile();
 
 
-void saveGameVictory(struct Game * game);
+void saveGameVictory(struct Game *game);
+
+
+bool verifyGameRunningAfterExit();
+
+void deleteGameFileData();
+
+void loadGameFromSaveFile(struct Game *game);
 
 #endif //TIC_TAC_TOE_GAMEBOARD_H
