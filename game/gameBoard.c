@@ -326,7 +326,7 @@ void saveCurrentGameStatus(struct Game *game){
 
         struct UserPlayFile newData;
         memcpy(&newData,currentPlay,sizeof(struct UserPlayFile));
-        memcpy(&newData.player,currentPlay->player,sizeof(struct Player));
+        memcpy(&newData.player,currentPlay->player,sizeof(struct PlayerFile));
 
         fwrite(&newData, sizeof(struct UserPlayFile),1,write_ptr);
         currentPlay = currentPlay->next;
@@ -446,7 +446,7 @@ void loadGameFromSaveFile(struct Game *gameBoard){
             //generate the new player
             struct Player *ptr1;
             ptr1 = (struct Player*) malloc(sizeof(struct Player));
-            playerInitialization(ptr1,aux.player.name,aux.player.symbol,false);
+            playerInitialization(ptr1,aux.player.name,aux.player.symbol,aux.player.isBot);
             gameBoard->players[playersDefined] = ptr1;
 
             printf(">> Player generated from file <<< \n");
@@ -502,9 +502,11 @@ void loadGameFromSaveFile(struct Game *gameBoard){
     //defining if the game is a player vs player or human vs computer
     //instantiate the correct game based on the current gameBoard data
     if(isBotGame){
+        printf("> Loaded save file type of Human vs Computer !\n");
         gameBoard->gameMode = GAMEMODE_HumanVsComputer;
         private_startHumanVsBot(gameBoard,true,lastIndex);
     }else{
+        printf("> Loaded save file type of Human vs Human !\n");
         gameBoard->gameMode = GAMEMODE_HumanVsHuman;
         private_startGameHumanVsHuman(gameBoard,true,lastIndex);
     }
