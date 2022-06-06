@@ -201,11 +201,31 @@ void verifyBoardVictory(struct Game * game){
     //verify by diag inverted
     bool winDiagInverted = VerifyPlayerWinByDiagInverted(&b);
 
+
+
     if(winLine || winColumn || winDiag || winDiagInverted){
         game->gameFinished = true;
         game->currentlyPlaying->victories++;
 
         printf("Congratulations! The player %s won the game! \n", game->currentlyPlaying->name);
+    }else{
+        //prego 2
+        for(i = 0; i < TOTAL_BOARDS; i++ ){
+            int row = i / BOARD_MATRIX_ORDER;
+            int column = i % BOARD_MATRIX_ORDER;
+            if(b.board[row][column] == PLAYER_SYMBOL_NULL){
+                if(game->boards[i].finished){
+                    b.board[row][column] = PLAYER_SYMBOL_DRAW;
+                }
+            }
+        }
+        //verify draw ( if the board ended and there isnt any winner)
+        bool drawGame = VerifyPlayerBoardDraw(&b);
+        if(drawGame){
+            game->gameFinished = true;
+            printf(" The game ended up in a draw ! \n");
+        }
+
     }
     printf("============== ########### ==============\n");
 }
