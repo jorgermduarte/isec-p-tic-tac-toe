@@ -107,7 +107,12 @@ void private_startHumanVsBot(struct Game *gameBoard,bool skip, int newBoardIndex
 
     if(gameBoard->gameFinished){
         deleteGameFileData();
-        saveGameVictory(gameBoard);
+
+        char *pname1;
+        printf("Please provide a file name to save all the moves during this game: \n");
+        scanf("%s",&pname1);
+
+        saveGameVictory(gameBoard,&pname1);
     }
 }
 

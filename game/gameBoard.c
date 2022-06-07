@@ -359,16 +359,18 @@ void loadGameStatusFromFile() {
 }
 
 
-void saveGameVictory(struct Game * game){
+void saveGameVictory(struct Game * game,char *filename){
     printf("============== ======= === ==============\n");
 
-    FILE *f = fopen(FILE_NAME_VICTORY, "w");
+    char endFileStr[5] = ".txt";
+    printf(" > file name provided by the user: %s \n", filename);
+
+    FILE *f = fopen( strcat(filename,endFileStr), "w");
     if (f == NULL)
     {
         printf("Error opening file!\n");
         exit(1);
     }
-
 
     printf(" > Saving file game victory... \n");
     struct UserPlay *currentPlay = game->boardPlays;

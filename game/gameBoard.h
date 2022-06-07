@@ -112,7 +112,7 @@ void saveCurrentGameStatus(struct Game *game);
 void loadGameStatusFromFile();
 
 
-void saveGameVictory(struct Game *game);
+void saveGameVictory(struct Game *game, char *filename);
 
 
 bool verifyGameRunningAfterExit();
