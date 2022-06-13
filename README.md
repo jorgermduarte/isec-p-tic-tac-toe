@@ -22,8 +22,3 @@
     - Neste ficheiro ficará informação detalhada e completa das jogadas que foram efetuadas
     - O ficheiro deve ser criado e escrito apenas no final do jogo, com base na informação armazenada na lista ligada que mantém
       as jogadas realizadas.
-
-
-
-# Relatório
-: 

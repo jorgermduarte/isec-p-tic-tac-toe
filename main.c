@@ -1,3 +1,8 @@
+//
+// Created by Jorge Duarte on 4/22/2022.
+// a2021110042
+//
+
 #include <stdio.h>
 #include "game/gameBoard.h";
 #include "game/modes/HumanVsHuman.h"

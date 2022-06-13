@@ -1,5 +1,6 @@
 //
-// Created by Jorge on 4/21/2022.
+// Created by Jorge Duarte on 4/21/2022.
+// a2021110042
 //
 
 #include "gameBoard.h"
